@@ -9,6 +9,11 @@
   var navToggle = document.getElementById("nav-toggle");
   var primaryNav = document.getElementById("primary-nav");
 
+  function closeNav() {
+    primaryNav.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+  }
+
   if (navToggle && primaryNav) {
     navToggle.addEventListener("click", function () {
       var isOpen = primaryNav.classList.toggle("open");
@@ -16,10 +21,7 @@
     });
 
     primaryNav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        primaryNav.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", closeNav);
     });
   }
 
@@ -28,6 +30,9 @@
   function onScroll() {
     if (!header) return;
     header.classList.toggle("scrolled", window.scrollY > 8);
+    if (navToggle && primaryNav && primaryNav.classList.contains("open")) {
+      closeNav();
+    }
   }
   document.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
